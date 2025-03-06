@@ -11,6 +11,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
       body {
@@ -102,6 +106,25 @@
 
       .copy-btn:hover {
         background-color: #e9ecef;
+      }
+
+      .wechat-add-btn {
+        background-color: #07c160;
+        color: white;
+        font-weight: bold;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 50px;
+        margin-top: 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .wechat-add-btn:hover {
+        background-color: #06ad56;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
       }
 
       .feature {
@@ -217,9 +240,14 @@
             <p>扫描下方二维码添加微信</p>
             <div id="qrcode"></div>
             <div class="wechat-id">manus_intro</div>
-            <button class="copy-btn" onclick="copyWechatId()">
-              复制微信号
-            </button>
+            <div class="mt-3 d-flex flex-column gap-2">
+              <button class="wechat-add-btn" onclick="openWechatAdd()">
+                <i class="bi bi-wechat me-1"></i>一键添加微信好友
+              </button>
+              <button class="copy-btn" onclick="copyWechatId()">
+                复制微信号
+              </button>
+            </div>
           </div>
 
           <div class="limited-offer">
@@ -301,7 +329,7 @@
       // 使用QRCode.js生成微信二维码
       window.onload = function () {
         new QRCode(document.getElementById("qrcode"), {
-          text: "https://weixin.qq.com/r/manus_intro",
+          text: "https://u.wechat.com/MEUkbq2vBK2o7yAb5y_ATYM",
           width: 180,
           height: 180,
           colorDark: "#000000",
@@ -309,6 +337,26 @@
           correctLevel: QRCode.CorrectLevel.H,
         });
       };
+
+      // 自动拉起微信添加好友
+      function openWechatAdd() {
+        // 微信号
+        const wechatId = "manus_intro";
+
+        // 移动设备直接拉起微信
+        if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+          // 使用微信官方链接
+          window.location.href = "https://u.wechat.com/MEUkbq2vBK2o7yAb5y_ATYM";
+
+          // 备用方案: 直接跳转微信
+          setTimeout(function () {
+            window.location.href = "weixin://";
+          }, 2000);
+        } else {
+          // PC设备显示提示
+          alert("请使用手机访问此页面，或直接扫描二维码添加微信好友");
+        }
+      }
 
       // 复制微信号功能
       function copyWechatId() {
